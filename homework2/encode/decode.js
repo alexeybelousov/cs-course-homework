@@ -38,8 +38,7 @@ const decode = (buffer, schema) => {
   let result = [];
 
   for (let i = 0; i < schema.length; i++) {
-    const encodeSize = schema[i][0];
-    const encodeType = schema[i][1];
+    const [encodeSize, encodeType] = schema[i];
     let binaryData = '';
 
     for (let j = 0; j < encodeSize; j++) {
@@ -47,12 +46,11 @@ const decode = (buffer, schema) => {
       const bitsIndex = count % 8;
 
       binaryData += `${bitAccessor.get(bytesIndex, bitsIndex)}`;
+
       count++;
     }
 
-    const decodeData = getDataByType(binaryData, encodeType);
-
-    result.push(decodeData);
+    result.push(getDataByType(binaryData, encodeType));
   }
 
   return result;

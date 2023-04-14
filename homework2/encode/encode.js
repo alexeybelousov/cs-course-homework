@@ -49,18 +49,13 @@ const encode = (data, schema) => {
 
   const bitsLength = schema.reduce((acc, el) => (acc += el[0]), 0);
   const bytesLength = Math.ceil(bitsLength/8);
-
-  let buffer = new ArrayBuffer(bytesLength);
-  let uint8Array = new Uint8Array(buffer).fill(0b00000000);
-
+  const uint8Array = new Uint8Array(bytesLength);
   const bitAccessor = createBitAccessor(uint8Array);
 
   let count = 0;
 
   for (let i = 0; i < data.length; i++) {
-    const encodeSize = schema[i][0];
-    const encodeType = schema[i][1];
-
+    const [encodeSize, encodeType]  = schema[i];
     const encodeData = getBinaryByType(data[i], encodeType);
     const offset = encodeSize - encodeData.length;
 
@@ -77,7 +72,7 @@ const encode = (data, schema) => {
     }
   }
 
-  return buffer;
+  return uint8Array.buffer;
 }
 
 module.exports = encode;
