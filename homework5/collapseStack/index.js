@@ -5,8 +5,10 @@ const collapse = (obj) => {
   while (stack.length) {
     const { obj, prefix } = stack.pop();
 
-    if (typeof obj !== 'object') {
+    if (typeof obj !== 'object' || obj === null) {
       result[prefix] = obj;
+
+      continue;
     }
 
     const keysArr = Object.keys(obj);
@@ -38,3 +40,13 @@ const obj = {
 
 /* {'a.b.0': 1, 'a.b.1': 2, 'a..c': 2} */
 console.log(collapse(obj));
+
+const obj2 = {
+  a: {
+    b: null,
+    c: '',
+  },
+};
+
+/* {'a.b': null, 'a.c': ''} */
+console.log(collapse(obj2));
