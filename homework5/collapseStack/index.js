@@ -12,7 +12,10 @@ const collapse = (obj) => {
     const keysArr = Object.keys(obj);
 
     for (let i = keysArr.length - 1; i >= 0; i--) {
-      stack.push({ prefix: `${prefix && prefix + '.'}${keysArr[i]}`, obj: obj[keysArr[i]] });
+      stack.push({
+        prefix: `${prefix && prefix + '.'}${keysArr[i]}`,
+        obj: obj[keysArr[i]],
+      });
     }
   }
 
