@@ -1,5 +1,5 @@
 const collapse = (obj) => {
-  let stack = [{ prefix: '', obj }];
+  let stack = [{ prefix: undefined, obj }];
   let result = {};
 
   while (stack.length) {
@@ -12,8 +12,13 @@ const collapse = (obj) => {
     const keysArr = Object.keys(obj);
 
     for (let i = keysArr.length - 1; i >= 0; i--) {
+      const key = keysArr[i];
+      const prefixToUpdate = prefix === undefined
+          ? key
+          : `${prefix}.${key}`;
+
       stack.push({
-        prefix: `${prefix && prefix + '.'}${keysArr[i]}`,
+        prefix: prefixToUpdate,
         obj: obj[keysArr[i]],
       });
     }
