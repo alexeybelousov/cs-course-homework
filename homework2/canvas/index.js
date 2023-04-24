@@ -18,6 +18,16 @@ const getScaledDimensions = (img, maxWidth, maxHeight) => {
   return scaled;
 }
 
+const grayColor = (data) => {
+  for (let i = 0; i < data.length; i+= 4) {
+    const color = (data[i] + data[i+1] + data[i+2]) / 3;
+
+    data[i] = color;
+    data[i+1] = color;
+    data[i+2] = color;
+  }
+}
+
 const invertColor = (data) => {
   for (let i = 0; i < data.length; i+= 4) {
     data[i] = data[i] ^ 255;
@@ -42,7 +52,7 @@ const handleFiles = (e) => {
 
       const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-      invertColor(imgData.data);
+      grayColor(imgData.data);
       
       ctx.putImageData(imgData, 0, 0);
   }
