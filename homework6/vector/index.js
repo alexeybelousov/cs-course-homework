@@ -1,32 +1,36 @@
 class Vector {
+  #capacity;
+  #arrayType;
+  #buffer;
+
   constructor(TypedArray, { capacity = 10 }) {
-    this.capacity = capacity;
-    this.arrayType = TypedArray;
-    this.buffer = new TypedArray(capacity);
+    this.#capacity = capacity;
+    this.#arrayType = TypedArray;
+    this.#buffer = new TypedArray(capacity);
     this.length = 0;
   }
 
-  arrayExtension(capacity) {
-    while (this.capacity < capacity) {
-      this.capacity *= 2;
+  #arrayExtension(capacity) {
+    while (this.#capacity < capacity) {
+      this.#capacity *= 2;
     }
 
-    const newBuffer = new this.arrayType(this.capacity);
+    const newBuffer = new this.#arrayType(this.#capacity);
 
-    for (let i = 0; i < this.buffer.length; i++) {
-      newBuffer[i] = this.buffer[i];
+    for (let i = 0; i < this.#buffer.length; i++) {
+      newBuffer[i] = this.#buffer[i];
     }
 
-    this.buffer = newBuffer;
+    this.#buffer = newBuffer;
   }
 
   push() {
-    if (arguments.length + this.length > this.capacity) {
-      this.arrayExtension(arguments.length + this.length);
+    if (arguments.length + this.length > this.#capacity) {
+      this.#arrayExtension(arguments.length + this.length);
     }
 
     for (let i = 0; i < arguments.length; i++) {
-      this.buffer[this.length] = arguments[i];
+      this.#buffer[this.length] = arguments[i];
       this.length++;
     }
     
@@ -34,17 +38,17 @@ class Vector {
   }
 
   unshift() {
-    if (arguments.length + this.length > this.capacity) {
-      this.arrayExtension(arguments.length + this.length);
+    if (arguments.length + this.length > this.#capacity) {
+      this.#arrayExtension(arguments.length + this.length);
     }
 
     this.length += arguments.length;
 
     for (let i = this.length - 1; i >= 0; i--) {
       if (i - arguments.length >= 0) {
-        this.buffer[i] = this.buffer[i - arguments.length];
+        this.#buffer[i] = this.#buffer[i - arguments.length];
       } else {
-        this.buffer[i] = arguments[i];
+        this.#buffer[i] = arguments[i];
       }
     }
 
@@ -53,9 +57,9 @@ class Vector {
 
   pop() {
     if (this.length > 0) {
-      const value = this.buffer[this.length - 1];
+      const value = this.#buffer[this.length - 1];
 
-      this.buffer[this.length - 1] = undefined;
+      this.#buffer[this.length - 1] = undefined;
       this.length -= 1;
 
       return value;
@@ -66,13 +70,13 @@ class Vector {
 
   shift() {
     if (this.length > 0) {
-      const value = this.buffer[0];
+      const value = this.#buffer[0];
 
       for (let i = 0; i < this.length - 1; i++) {
-        this.buffer[i] = this.buffer[i + 1];
+        this.#buffer[i] = this.#buffer[i + 1];
       }
       
-      this.buffer[this.length - 1] = undefined;
+      this.#buffer[this.length - 1] = undefined;
       this.length -= 1;
 
       return value;
