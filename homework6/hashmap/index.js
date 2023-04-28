@@ -15,6 +15,14 @@ const getHash = (key) => {
   }
 }
 
+const compareKeys = (key1, key2) => {
+  if (typeof key1 === 'object') {
+    return JSON.stringify(key1) === JSON.stringify(key2);
+  }
+
+  return key1 === key2;
+}
+
 class HashMap {
   #capacity;
   #hashFunction;
@@ -45,7 +53,7 @@ class HashMap {
       
       if (!item) return -1;
       
-      if (item.key === key) {
+      if (compareKeys(key, item.key)) {
         return i;
       }
     }
@@ -141,12 +149,12 @@ console.log(map.get(43));    // 22
 map.set('523', 23);
 console.log(map.get('523'));    // 23
 
-map.set("{ a: 556, b: '88' }", 100);
-console.log(map.get("{ a: 556, b: '88' }"));    // 100
-console.log(map.has("{ a: 556, b: '88' }"));    // true
-console.log(map.delete("{ a: 556, b: '88' }")); // 24
-console.log(map.has("{ a: 556, b: '88' }"));    // false
-console.log(map.delete("{ a: 556, b: '88' }")); // null
+map.set({ a: 556, b: '88' }, 100);
+console.log(map.get({ a: 556, b: '88' }));    // 100
+console.log(map.has({ a: 556, b: '88' }));    // true
+console.log(map.delete({ a: 556, b: '88' })); // 24
+console.log(map.has({ a: 556, b: '88' }));    // false
+console.log(map.delete({ a: 556, b: '88' })); // null
 
 console.log(map.get(44));    // null
 
