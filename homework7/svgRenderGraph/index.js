@@ -108,7 +108,7 @@ class svgRenderGraph {
     this.svg.appendChild(vertex);
   }
 
-  renderText = (x, y, content) => {
+  renderText(x, y, content) {
     const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
     const coorX = `${content}`.length > 1 ? x - 8 : x - 4
   
