@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      svg {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="textareabox" name="textarea1" rows="10" cols="20"></textarea>
+
+    <div>
+      <input type="button" value="Depth" onclick="renderDepth()" />
+      <input type="button" value="Breadth" onclick="renderBreadth()" />
+      <input type="button" value="Transitive" onclick="renderTransitiveClosure()" />
+
+      <div>
+        <input id="find" type="text" value="1 8" size="15"/>
+        <input type="button" value="Find path" onclick="renderFindPath()" />
+      </div>
+    </div>
+
+    <div id="target"></div>
+  </body>
+  <script src="./matrix2d/index.js"></script>
+  <script src="./svgRenderGraph/index.js"></script>
+  <script src="./graph/index.js"></script>
+  <script src="./index.js"></script>
+</html>
