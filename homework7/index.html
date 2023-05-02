@@ -11,14 +11,18 @@
     <textarea id="textareabox" name="textarea1" rows="10" cols="20"></textarea>
 
     <div>
+      <input type="button" value="Print" onclick="printGraph()" />
+      <input type="button" value="Sort" onclick="sortGraph()" />
+
+      <div>
+        <input id="find" type="text" value="1 8" size="5"/>
+        <input type="button" value="Find path" onclick="renderFindPath()" />
+      </div>
+
       <input type="button" value="Depth" onclick="renderDepth()" />
       <input type="button" value="Breadth" onclick="renderBreadth()" />
       <input type="button" value="Transitive" onclick="renderTransitiveClosure()" />
-
-      <div>
-        <input id="find" type="text" value="1 8" size="15"/>
-        <input type="button" value="Find path" onclick="renderFindPath()" />
-      </div>
+      * - traversing from the 0 vertex
     </div>
 
     <div id="target"></div>

@@ -20,20 +20,20 @@ const createMatrix = (data) => {
   return new Matrix2D(totalCircles, totalCircles, array); 
 }
 
-const createPathByType = (matrix, type) => {
+const createPathByType = (matrix, type, start = 0) => {
   const graph = new Graph();
 
   graph.fillByMatrix(matrix, matrix.rows);
 
-  const start = graph.nodes.get(0);
+  const startNode = graph.nodes.get(start);
   
-  return [graph, graph[type](start)];
+  return [graph, graph[type](startNode)];
 }
 
-const renderGraph = (graph, path, edgeColor) => {
+const renderGraph = (graph, path, delay = 200, edgeColor) => {
   const target = document.getElementById("target");
   const svgGraph = new svgRenderGraph(600, 600, target);
-  const coordinates = generateCoordinates(path.length);
+  const coordinates = generateCoordinates(graph.nodes.size);
 
   for (let i = 0; i < path.length; i++) {
     const [x, y] = coordinates[path[i]];
@@ -50,7 +50,7 @@ const renderGraph = (graph, path, edgeColor) => {
         const [x1, y1] = coordinates[path[i]];
         const [x2, y2] = coordinates[adjacents[j].value];
     
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, delay));
 
         svgGraph.renderEdge(x1, y1, x2, y2, edgeColor);
       }
@@ -61,18 +61,30 @@ const renderGraph = (graph, path, edgeColor) => {
 }
 
 const setDefaultData = () => {
-  const data = `0 1 1 0 1 0 0 0 0 0
-0 0 0 1 0 0 0 0 0 0
+const data = `0 0 1 0 1 0 0 0 0 0
+1 0 0 1 0 0 0 0 0 0
 0 0 0 0 0 1 0 0 0 0
-0 0 0 0 0 0 1 0 0 0
+0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 1 1
-0 0 0 0 0 0 0 0 0 0
+0 0 0 1 0 0 0 0 0 0
 0 0 0 0 0 0 0 0 0 0
 0 0 0 0 0 0 0 1 0 0
 0 0 0 0 0 0 0 0 0 0`;
 
   document.getElementById("textareabox").value = data;
+}
+
+const printGraph = () => {
+  const data = document.getElementById("textareabox").value;
+  const matrix = createMatrix(data);
+  const graph = new Graph();
+
+  graph.fillByMatrix(matrix, matrix.rows);
+
+  const path = [...graph.nodes.values()].map((node) => node.value)
+  
+  renderGraph(graph, path);
 }
 
 const renderDepth = () => {
@@ -99,7 +111,7 @@ const renderTransitiveClosure = async () => {
   const [graph, path] = createPathByType(matrix, 'depthTraverse');
   const [svgGraph, coordinates] = renderGraph(graph, path);
 
-  await new Promise(resolve => setTimeout(resolve, 200 * matrix.rows));
+  await new Promise(resolve => setTimeout(resolve, 200 * (path.length)));
 
   graph.fillByMatrix(transitiveMatrix, transitiveMatrix.rows);
 
@@ -128,14 +140,14 @@ const renderFindPath = async () => {
   const data = document.getElementById("textareabox").value;
   const matrix = createMatrix(data);
 
-  const [graph, path] = createPathByType(matrix, 'breadthTraverse');
-  const [svgGraph, coordinates] = renderGraph(graph, path);
+  const [graph, path] = createPathByType(matrix, 'breadthTraverse', start - 1);
+  const [svgGraph, coordinates] = renderGraph(graph, path, 0);
 
   const startNode = graph.nodes.get(start - 1);
   const endNode = graph.nodes.get(end - 1);
 
   if (startNode && endNode) {
-    await new Promise(resolve => setTimeout(resolve, 200 * matrix.rows));
+    await new Promise(resolve => setTimeout(resolve, 500));
 
     const transitivePath = graph.findPath(graph.nodes.get(start - 1), graph.nodes.get(end - 1));
     
@@ -148,6 +160,20 @@ const renderFindPath = async () => {
       alert('Path has been not found');
     }
   }
+}
+
+const sortGraph = async () => {
+  const data = document.getElementById("textareabox").value;
+  const matrix = createMatrix(data);
+  const graph = new Graph();
+
+  graph.fillByMatrix(matrix, matrix.rows);
+
+  const path = graph.topologicalSorting();
+
+  renderGraph(graph, path);
+
+  await new Promise(resolve => setTimeout(resolve, 200 * (path.length)));
 }
 
 window.onload = setDefaultData;

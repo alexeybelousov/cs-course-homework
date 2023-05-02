@@ -40,9 +40,7 @@ class Graph {
   }
 
   #mapToValueArray(map) {
-    let nodes = Array.from(map);
-
-    return nodes.map(node => node.value);
+    return [...map.values()].map(node => node.value);;
   }
 
   depthTraverse(first) {
@@ -114,5 +112,34 @@ class Graph {
     }
 
     return false;
+  }
+
+  topologicalSorting() {
+    const visited = new Set();
+    const stack = [];
+
+    const innerTraverse = (node) => {
+      visited.add(node);
+
+      const neighbors = node.getAdjacents();
+
+      if (neighbors.length) {
+        node.getAdjacents().forEach((node) => {
+          if (!visited.has(node)) {
+            innerTraverse(node);
+          }
+        });
+      }
+
+      stack.push(node.value);
+    }
+
+    for (let [_, node] of this.nodes) {
+      if (!visited.has(node)) {
+        innerTraverse(node);
+      }
+    }
+
+    return stack.reverse();
   }
 }

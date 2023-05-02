@@ -17,15 +17,15 @@ const getTotalRows = (circles) => {
   return rows;
 }
 
-const generateCoordinates = (circles) => {
-  const totalRows = getTotalRows(circles);
+const generateCoordinates = (vertexes) => {
+  const totalRows = getTotalRows(vertexes);
   const offsetY = 600 / totalRows;
 
   let result = {};
   let circlesInRow = 1;
 
 
-  for (let i = 0, indexInRow = 0; i < circles; i++) {
+  for (let i = 0, indexInRow = 0; i < vertexes; i++) {
     indexInRow++;
 
     const offsetX = 600 / circlesInRow;
