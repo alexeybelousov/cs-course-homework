@@ -1,6 +1,6 @@
 let tree;
 
-const renderTraverse = (node, x, y, prevX, prevY, svgTree, level, xMiddle) => {
+const renderTraverse = async (node, x, y, prevX, prevY, svgTree, level, xMiddle, delay) => {
   if (node) {
     svgTree.renderVertex(x, y);
     svgTree.renderText(x, y, node.value);
@@ -13,16 +13,18 @@ const renderTraverse = (node, x, y, prevX, prevY, svgTree, level, xMiddle) => {
     const countInMiddleRows = countInRow / 2;
     const space = xMiddle / countInMiddleRows / 2;
 
-    renderTraverse(node.left, x - space, y + 60, x, y, svgTree, level + 1, xMiddle);
-    renderTraverse(node.right, x + space, y + 60, x, y, svgTree, level + 1, xMiddle);
+    await new Promise(resolve => setTimeout(resolve, delay));
+
+    renderTraverse(node.left, x - space, y + 60, x, y, svgTree, level + 1, xMiddle, delay);
+    renderTraverse(node.right, x + space, y + 60, x, y, svgTree, level + 1, xMiddle, delay);
   }
 }
 
-const renderBinaryTree = (tree) => {
+const renderBinaryTree = (tree, delay = 100) => {
   const target = document.getElementById("target");
   const svgTree = new SvgRenderGraph(800, 600, target);
 
-  renderTraverse(tree.root, 400, 100, 400, 100, svgTree, 1, 400);
+  renderTraverse(tree.root, 400, 100, 400, 100, svgTree, 1, 400, delay);
 }
 
 const renderClear = () => {
@@ -36,7 +38,7 @@ const renderAddValue = () => {
 
   tree.add(value);
 
-  renderBinaryTree(tree);
+  renderBinaryTree(tree, 0);
 }
 
 const renderRemoveValue = () => {
@@ -44,7 +46,7 @@ const renderRemoveValue = () => {
 
   tree.remove(value);
 
-  renderBinaryTree(tree);
+  renderBinaryTree(tree, 0);
 }
 
 window.onload = () => {
