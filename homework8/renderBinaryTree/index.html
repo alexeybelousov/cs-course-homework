@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      svg {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <input type="button" value="Random" onclick="window.location.reload()" />
+    <input type="button" value="Clear" onclick="renderClear()" />
+    <div>
+      <input id="add-value" type="text" value="" size="5"/>
+      <input type="button" value="Add" onclick="renderAddValue()" />
+      <input id="remove-value" type="text" value="" size="5"/>
+      <input type="button" value="Remove" onclick="renderRemoveValue()" />
+    </div>
+
+    <div id="target"></div>
+  </body>
+  <script src="../../homework7/svgRenderGraph/index.js"></script>
+  <script src="./binaryTree/index.js"></script>
+  <script src="./index.js"></script>
+</html>

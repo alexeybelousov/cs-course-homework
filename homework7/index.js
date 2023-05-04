@@ -32,7 +32,7 @@ const createPathByType = (matrix, type, start = 0) => {
 
 const renderGraph = (graph, path, delay = 200, edgeColor) => {
   const target = document.getElementById("target");
-  const svgGraph = new svgRenderGraph(600, 600, target);
+  const svgGraph = new SvgRenderGraph(600, 600, target);
   const coordinates = generateCoordinates(graph.nodes.size);
 
   for (let i = 0; i < path.length; i++) {

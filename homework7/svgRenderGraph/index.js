@@ -45,7 +45,7 @@ const generateCoordinates = (vertexes) => {
 
 const COLOR = 'red';
 
-class svgRenderGraph {
+class SvgRenderGraph {
   constructor(width, height, target) {
     this.#createContainer(width, height, target);
   }
@@ -110,7 +110,7 @@ class svgRenderGraph {
 
   renderText(x, y, content) {
     const text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-    const coorX = `${content}`.length > 1 ? x - 8 : x - 4
+    const coorX = x - (`${content}`.length * 4);
   
     text.setAttribute("x", coorX);
     text.setAttribute("y", y + 4);
