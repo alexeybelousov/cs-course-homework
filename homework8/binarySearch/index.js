@@ -44,8 +44,18 @@ const bisecRight = (array, comparator) => {
   return result;
 }
 
+const comparator = (el) => {
+  if (el < 7) {
+    return -1;
+  } else if (el > 7) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 // Находит первый индекс элемента
-console.log(bisecLeft([1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 8, 9], (el) => el - 7));  // 6
+console.log(bisecLeft([1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 8, 9], comparator));  // 6
 
 // Находит последний индекс элемента
-console.log(bisecRight([1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 8, 9], (el) => el - 7)); // 9
+console.log(bisecRight([1, 2, 3, 4, 5, 6, 7, 7, 7, 7, 8, 9], comparator)); // 9
