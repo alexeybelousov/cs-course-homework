@@ -71,7 +71,7 @@ const filter = (iterable, predicate) => {
             return v;
           }
       }
-  }
+    }
   }
 }
 
