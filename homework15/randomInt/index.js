@@ -56,7 +56,6 @@ console.log([...take(randomInt, 15)]);
 
 // 3
 const filter = (iterable, predicate) => {
-  let count = 0;
   const iterator = iterable[Symbol.iterator]();
 
   return {
